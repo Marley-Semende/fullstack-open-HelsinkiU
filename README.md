@@ -23,7 +23,7 @@ Traditional web applications, single page applications, HTTP forms, HTML & CSS r
 React, modern JavaScript, hooks vs "old react", debugging.
 
 - Anecdotes
-- Courseinfo
+- [Course Info](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part1/courseinfo)
 - Unicafe
 
 ### Part 2 - Communicating with server
