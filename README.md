@@ -17,7 +17,7 @@ Course Website: https://fullstackopen.com/en
 ## Course Exercises
 ### Part 0 - Fundamentals of Web apps
 Traditional web applications, single page applications, HTTP forms, HTML & CSS review.
-- Traditional web app & SPA sequence diagrams
+- [Traditional web app & SPA sequence diagrams](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part0)
 
 ### Part 1 - Introduction to React
 React, modern JavaScript, hooks vs "old react", debugging.
