@@ -24,7 +24,7 @@ React, modern JavaScript, hooks vs "old react", debugging.
 
 - Anecdotes
 - [Course Info](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part1/courseinfo)
-- Unicafe
+- [Unicafe](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part1/unicafe)
 
 ### Part 2 - Communicating with server
 Modules, forms, getting data from server, effect hooks, sending data to server, inline styles.
