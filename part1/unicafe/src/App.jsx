@@ -2,40 +2,43 @@ import { useState } from "react";
 
 const StatisticLine = ({ text, value }) => {
   return (
-    <p>
-      {text} {value}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 
 const Statistics = (props) => {
-  if (props.good === 0 && props.neutral === 0 && props.bad === 0) {
+  const totalFeedback = props.good + props.neutral + props.bad;
+  const average =
+    totalFeedback > 0 ? (props.good - props.bad) / totalFeedback : 0;
+  const positivePercentage =
+    totalFeedback > 0 ? (props.good / totalFeedback) * 100 : 0;
+
+  if (totalFeedback === 0) {
     return <p>No feedback given</p>;
   }
+
   return (
     <div>
       <h2>Statistics</h2>
-      <StatisticLine text="good" value={props.good} />
-      <StatisticLine text="neutral" value={props.neutral} />
-      <StatisticLine text="bad" value={props.bad} />
-      <StatisticLine
-        text="total"
-        value={props.good + props.neutral + props.bad}
-      />
-      <StatisticLine
-        text="average"
-        value={
-          (props.good - props.bad) / (props.good + props.neutral + props.bad)
-        }
-      />
-      <StatisticLine
-        text="positive"
-        value={(props.good / (props.good + props.neutral + props.bad)) * 100}
-      />
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={props.good} />
+          <StatisticLine text="neutral" value={props.neutral} />
+          <StatisticLine text="bad" value={props.bad} />
+          <StatisticLine text="total" value={totalFeedback} />
+          <StatisticLine text="average" value={average.toFixed(2)} />
+          <StatisticLine
+            text="positive"
+            value={`${positivePercentage.toFixed(2)}%`}
+          />
+        </tbody>
+      </table>
     </div>
   );
 };
-
 const Button = ({ onClick, text }) => {
   return (
     <div>
