@@ -1,4 +1,5 @@
 import Part from "./Part";
+
 const Content = ({ parts }) => {
   return (
     <div>
@@ -8,4 +9,5 @@ const Content = ({ parts }) => {
     </div>
   );
 };
+
 export default Content;
