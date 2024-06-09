@@ -22,7 +22,7 @@ Traditional web applications, single page applications, HTTP forms, HTML & CSS r
 ### Part 1 - Introduction to React
 React, modern JavaScript, hooks vs "old react", debugging.
 
-- Anecdotes
+- [Anecdotes](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part1/anecdotes)
 - [Course Info](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part1/courseinfo)
 - [Unicafe](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part1/unicafe)
 
