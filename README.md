@@ -29,7 +29,7 @@ React, modern JavaScript, hooks vs "old react", debugging.
 ### Part 2 - Communicating with server
 Modules, forms, getting data from server, effect hooks, sending data to server, inline styles.
 
-- Countries
+- [Countries](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part2/countries)
 - [Courseinfo](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part2/courseinfo)
 - [Phonebook](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part2/phonebook)
 
