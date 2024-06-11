@@ -22,6 +22,18 @@ const App = () => {
     getPersons();
   }, []);
 
+  const addPerson = async (person) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/persons",
+        person
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -34,12 +46,16 @@ const App = () => {
     setFilter(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (persons.some((person) => person.name === newName)) {
+    const personExists = persons.some((person) => person.name === newName);
+
+    if (personExists) {
       alert(`The name ${newName} is already added to the phonebook!`);
     } else {
-      setPersons([...persons, { name: newName, number: newNumber }]);
+      const newPerson = { name: newName, number: newNumber };
+      await addPerson(newPerson);
+      setPersons([...persons, newPerson]);
       setNewName("");
       setNewNumber("");
     }
