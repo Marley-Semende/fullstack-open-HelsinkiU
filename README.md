@@ -31,7 +31,7 @@ Modules, forms, getting data from server, effect hooks, sending data to server, 
 
 - Countries
 - [Courseinfo](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part2/courseinfo)
-- [Phonebook](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/phonebook)
+- [Phonebook](https://github.com/Marley-Semende/fullstack-open-HelsinkiU/tree/main/part2/phonebook)
 
 ### Part 3 - Programming a server with NodeJS and Express
 NodeJS and Express, REST, Express middleware, MongoDB, validation and ESLint.
