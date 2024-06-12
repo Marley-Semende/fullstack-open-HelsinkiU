@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PhoneBook from "./components/PhoneBook";
-import axios from "axios";
+import { getAll, create } from "../util/api";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,29 +10,16 @@ const App = () => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    const getPersons = async () => {
+    const fetchPersons = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/persons");
-        console.log(response.data);
-        setPersons(response.data);
+        const personsData = await getAll();
+        setPersons(personsData);
       } catch (error) {
         console.log(error);
       }
     };
-    getPersons();
+    fetchPersons();
   }, []);
-
-  const addPerson = async (person) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/persons",
-        person
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -54,10 +41,14 @@ const App = () => {
       alert(`The name ${newName} is already added to the phonebook!`);
     } else {
       const newPerson = { name: newName, number: newNumber };
-      await addPerson(newPerson);
-      setPersons([...persons, newPerson]);
-      setNewName("");
-      setNewNumber("");
+      try {
+        await create(newPerson);
+        setPersons([...persons, newPerson]);
+        setNewName("");
+        setNewNumber("");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -71,9 +62,7 @@ const App = () => {
       <Filter filter={filter} onFilterChange={handleFilterChange} />
       <h2>Add a new</h2>
       <PhoneBook
-        handleNameChange={handleNameChange}
-        handleNumberChange={handleNumberChange}
-        handleSubmit={handleSubmit}
+        handleNameChange={(handleNameChange, handleNumberChange, handleSubmit)}
       />
       <h2>Numbers</h2>
       {filteredPersons.map((person) => (
