@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PhoneBook from "./components/PhoneBook";
 import { getAll, create, update, remove } from "../util/api";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     const fetchPersons = async () => {
@@ -16,6 +18,13 @@ const App = () => {
     };
     fetchPersons();
   }, []);
+
+  const showNotification = (message) => {
+    setNotification(message);
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+  };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -44,8 +53,10 @@ const App = () => {
           setPersons(
             persons.map((p) => (p.id !== person.id ? p : returnedPerson))
           );
+          showNotification(`Updated ${newName}'s number to ${newNumber}`);
         } catch (error) {
           console.log(error);
+          showNotification(`Failed to update ${newName}'s number`);
         }
         setNewName("");
         setNewNumber("");
@@ -55,8 +66,10 @@ const App = () => {
       try {
         const addedPerson = await create(newPerson);
         setPersons(persons.concat(addedPerson));
+        showNotification(`Added ${newName} with number ${newNumber}`);
       } catch (error) {
         console.log(error);
+        showNotification(`Failed to add ${newName}`);
       }
       setNewName("");
       setNewNumber("");
@@ -67,8 +80,14 @@ const App = () => {
     const person = persons.find((p) => p.id === id);
     const confirmDelete = window.confirm(`Delete ${person.name}?`);
     if (confirmDelete) {
-      await remove(id);
-      setPersons(persons.filter((p) => p.id !== id));
+      try {
+        await remove(id);
+        setPersons(persons.filter((p) => p.id !== id));
+        showNotification(`Deleted ${person.name}`);
+      } catch (error) {
+        console.log(error);
+        showNotification(`Failed to delete ${person.name}`);
+      }
     }
   };
 
@@ -79,6 +98,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} />
       <Filter filter={filter} onFilterChange={handleFilterChange} />
       <h2>Add a new</h2>
       <PhoneBook
