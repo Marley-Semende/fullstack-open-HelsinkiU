@@ -5,6 +5,7 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [weather, setWeather] = useState(null);
   const [infoMessage, setInfoMessage] = useState("");
 
   const handleSearchChange = async (event) => {
@@ -17,16 +18,9 @@ const App = () => {
           `https://restcountries.com/v3.1/name/${searchTerm}`
         );
         const fetchedCountries = response.data;
-
-        if (fetchedCountries.length > 10) {
-          setCountries([]);
-          setSelectedCountry(null);
-          setInfoMessage("Too many matches, specify another filter");
-        } else {
-          setCountries(fetchedCountries);
-          setSelectedCountry(null);
-          setInfoMessage("");
-        }
+        setCountries(fetchedCountries);
+        setSelectedCountry(null);
+        setWeather(null);
       } catch (error) {
         console.log(error);
         setCountries([]);
@@ -40,6 +34,36 @@ const App = () => {
 
   const handleShowDetails = (country) => {
     setSelectedCountry(country);
+    fetchWeather(country.capital[0]);
+  };
+
+  const fetchWeather = async (capital) => {
+    try {
+      const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${apiKey}&units=metric`;
+      const response = await axios.get(url);
+      setWeather(response.data);
+    } catch (error) {
+      console.log("Weather data not available", error);
+      setWeather(null);
+    }
+  };
+
+  const renderWeatherDetails = (weather) => {
+    return (
+      <div>
+        <h3>Weather in {weather.name}</h3>
+        <p>
+          <strong>Temperature:</strong> {weather.main.temp}°C
+        </p>
+        <p>
+          <strong>Weather:</strong> {weather.weather[0].main}
+        </p>
+        <p>
+          <strong>Wind:</strong> {weather.wind.speed} m/s
+        </p>
+      </div>
+    );
   };
 
   const renderCountryDetail = (country) => {
@@ -61,6 +85,7 @@ const App = () => {
           alt={`Flag of ${country.name.common}`}
           style={{ width: "150px" }}
         />
+        {weather && renderWeatherDetails(weather)}
       </div>
     );
   };
