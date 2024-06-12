@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PhoneBook from "./components/PhoneBook";
-import { getAll, create, remove } from "../util/api.js";
+import { getAll, create, update, remove } from "../util/api";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -31,14 +31,33 @@ const App = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const personExists = persons.some((person) => person.name === newName);
+    const person = persons.find((p) => p.name === newName);
 
-    if (personExists) {
-      alert(`The name ${newName} is already added to the phonebook!`);
+    if (person) {
+      const confirmUpdate = window.confirm(
+        `${newName} is already in the phonebook, replace the old number with a new one?`
+      );
+      if (confirmUpdate) {
+        const updatedPerson = { ...person, number: newNumber };
+        try {
+          const returnedPerson = await update(person.id, updatedPerson);
+          setPersons(
+            persons.map((p) => (p.id !== person.id ? p : returnedPerson))
+          );
+        } catch (error) {
+          console.log(error);
+        }
+        setNewName("");
+        setNewNumber("");
+      }
     } else {
       const newPerson = { name: newName, number: newNumber };
-      const addedPerson = await create(newPerson);
-      setPersons(persons.concat(addedPerson));
+      try {
+        const addedPerson = await create(newPerson);
+        setPersons(persons.concat(addedPerson));
+      } catch (error) {
+        console.log(error);
+      }
       setNewName("");
       setNewNumber("");
     }
