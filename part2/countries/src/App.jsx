@@ -4,6 +4,7 @@ import axios from "axios";
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [infoMessage, setInfoMessage] = useState("");
 
   const handleSearchChange = async (event) => {
@@ -19,12 +20,11 @@ const App = () => {
 
         if (fetchedCountries.length > 10) {
           setCountries([]);
+          setSelectedCountry(null);
           setInfoMessage("Too many matches, specify another filter");
-        } else if (fetchedCountries.length === 1) {
-          setCountries(fetchedCountries);
-          setInfoMessage("");
         } else {
           setCountries(fetchedCountries);
+          setSelectedCountry(null);
           setInfoMessage("");
         }
       } catch (error) {
@@ -38,6 +38,10 @@ const App = () => {
     }
   };
 
+  const handleShowDetails = (country) => {
+    setSelectedCountry(country);
+  };
+
   const renderCountryDetail = (country) => {
     return (
       <div>
@@ -46,7 +50,7 @@ const App = () => {
           <strong>Capital:</strong> {country.capital.join(", ")}
         </p>
         <p>
-          <strong>Area:</strong> {country.area} km²
+          <strong>Area:</strong> {country.area.toLocaleString()} km²
         </p>
         <p>
           <strong>Languages:</strong>{" "}
@@ -71,10 +75,15 @@ const App = () => {
         onChange={handleSearchChange}
       />
       {infoMessage && <p>{infoMessage}</p>}
-      {countries.length === 1
-        ? renderCountryDetail(countries[0])
+      {selectedCountry
+        ? renderCountryDetail(selectedCountry)
         : countries.map((country) => (
-            <p key={country.name.official}>{country.name.common}</p>
+            <div key={country.name.official}>
+              {country.name.common}
+              <button onClick={() => handleShowDetails(country)}>
+                Show details
+              </button>
+            </div>
           ))}
     </div>
   );
