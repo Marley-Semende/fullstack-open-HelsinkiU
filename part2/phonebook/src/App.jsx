@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PhoneBook from "./components/PhoneBook";
-import { getAll, create } from "../util/api";
+import { getAll, create, remove } from "../util/api.js";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,12 +11,8 @@ const App = () => {
 
   useEffect(() => {
     const fetchPersons = async () => {
-      try {
-        const personsData = await getAll();
-        setPersons(personsData);
-      } catch (error) {
-        console.log(error);
-      }
+      const personsData = await getAll();
+      setPersons(personsData);
     };
     fetchPersons();
   }, []);
@@ -41,14 +37,19 @@ const App = () => {
       alert(`The name ${newName} is already added to the phonebook!`);
     } else {
       const newPerson = { name: newName, number: newNumber };
-      try {
-        await create(newPerson);
-        setPersons([...persons, newPerson]);
-        setNewName("");
-        setNewNumber("");
-      } catch (error) {
-        console.log(error);
-      }
+      const addedPerson = await create(newPerson);
+      setPersons(persons.concat(addedPerson));
+      setNewName("");
+      setNewNumber("");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const person = persons.find((p) => p.id === id);
+    const confirmDelete = window.confirm(`Delete ${person.name}?`);
+    if (confirmDelete) {
+      await remove(id);
+      setPersons(persons.filter((p) => p.id !== id));
     }
   };
 
@@ -62,12 +63,15 @@ const App = () => {
       <Filter filter={filter} onFilterChange={handleFilterChange} />
       <h2>Add a new</h2>
       <PhoneBook
-        handleNameChange={(handleNameChange, handleNumberChange, handleSubmit)}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+        handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
       {filteredPersons.map((person) => (
-        <p key={person.name}>
+        <p key={person.id}>
           {person.name} {person.number}
+          <button onClick={() => handleDelete(person.id)}>Delete</button>
         </p>
       ))}
     </div>
