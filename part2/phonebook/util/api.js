@@ -8,16 +8,28 @@ export const getAll = async () => {
 };
 
 export const create = async (newPerson) => {
-  const response = await axios.post(baseUrl, newPerson);
-  return response.data;
+  try {
+    const response = await axios.post(baseUrl, newPerson);
+    return { data: response.data };
+  } catch (error) {
+    return { error: error.response ? error.response.data : "Network error" };
+  }
 };
 
 export const update = async (id, updatedPerson) => {
-  const response = await axios.put(`${baseUrl}/${id}`, updatedPerson);
-  return response.data;
+  try {
+    const response = await axios.put(`${baseUrl}/${id}`, updatedPerson);
+    return { data: response.data };
+  } catch (error) {
+    return { error: error.response ? error.response.data : "Network error" };
+  }
 };
 
 export const remove = async (id) => {
-  const response = await axios.delete(`${baseUrl}/${id}`);
-  return response.data;
+  try {
+    const response = await axios.delete(`${baseUrl}/${id}`);
+    return { data: response.data };
+  } catch (error) {
+    return { error: error.response ? error.response.data : "Network error" };
+  }
 };

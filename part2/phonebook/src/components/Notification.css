@@ -9,3 +9,8 @@
   width: 300px;
   text-align: center;
 }
+
+.notification.error {
+  color: white;
+  background: red;
+}

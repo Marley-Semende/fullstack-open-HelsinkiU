@@ -10,6 +10,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState("");
 
   useEffect(() => {
     const fetchPersons = async () => {
@@ -19,10 +20,12 @@ const App = () => {
     fetchPersons();
   }, []);
 
-  const showNotification = (message) => {
+  const showNotification = (message, type = "success") => {
     setNotification(message);
+    setNotificationType(type);
     setTimeout(() => {
       setNotification(null);
+      setNotificationType("");
     }, 5000);
   };
 
@@ -48,45 +51,46 @@ const App = () => {
       );
       if (confirmUpdate) {
         const updatedPerson = { ...person, number: newNumber };
-        try {
-          const returnedPerson = await update(person.id, updatedPerson);
+        const result = await update(person.id, updatedPerson);
+        if (result.error) {
+          showNotification(
+            `Error updating ${newName}: ${result.error}`,
+            "error"
+          );
+        } else {
           setPersons(
-            persons.map((p) => (p.id !== person.id ? p : returnedPerson))
+            persons.map((p) => (p.id !== person.id ? p : result.data))
           );
           showNotification(`Updated ${newName}'s number to ${newNumber}`);
-        } catch (error) {
-          console.log(error);
-          showNotification(`Failed to update ${newName}'s number`);
         }
-        setNewName("");
-        setNewNumber("");
       }
     } else {
       const newPerson = { name: newName, number: newNumber };
-      try {
-        const addedPerson = await create(newPerson);
-        setPersons(persons.concat(addedPerson));
+      const result = await create(newPerson);
+      if (result.error) {
+        showNotification(`Error adding ${newName}: ${result.error}`, "error");
+      } else {
+        setPersons(persons.concat(result.data));
         showNotification(`Added ${newName} with number ${newNumber}`);
-      } catch (error) {
-        console.log(error);
-        showNotification(`Failed to add ${newName}`);
       }
-      setNewName("");
-      setNewNumber("");
     }
+    setNewName("");
+    setNewNumber("");
   };
 
   const handleDelete = async (id) => {
     const person = persons.find((p) => p.id === id);
     const confirmDelete = window.confirm(`Delete ${person.name}?`);
     if (confirmDelete) {
-      try {
-        await remove(id);
+      const result = await remove(id);
+      if (result.error) {
+        showNotification(
+          `Error deleting ${person.name}: ${result.error}`,
+          "error"
+        );
+      } else {
         setPersons(persons.filter((p) => p.id !== id));
         showNotification(`Deleted ${person.name}`);
-      } catch (error) {
-        console.log(error);
-        showNotification(`Failed to delete ${person.name}`);
       }
     }
   };
@@ -98,7 +102,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification message={notification} type={notificationType} />
       <Filter filter={filter} onFilterChange={handleFilterChange} />
       <h2>Add a new</h2>
       <PhoneBook
