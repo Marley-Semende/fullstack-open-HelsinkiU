@@ -69,3 +69,7 @@ app.post("/api/persons", (req, res) => {
   res.status(201).json(newPerson);
   personsData.concat(newPerson);
 });
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
