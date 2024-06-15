@@ -1,7 +1,9 @@
 const Filter = ({ filter, onFilterChange }) => {
   return (
     <div>
-      <label htmlFor="search-input">Filter shown with:</label>
+      <label htmlFor="search-input" className="filter-label">
+        Filter Contacts:
+      </label>
       <input
         id="search-input"
         placeholder="Search for contacts"

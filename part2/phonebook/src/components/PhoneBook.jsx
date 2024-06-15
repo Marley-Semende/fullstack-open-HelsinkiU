@@ -9,13 +9,25 @@ const PhoneBook = ({
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          name: <input value={newName} onChange={handleNameChange} />
+          Name:{" "}
+          <input
+            value={newName}
+            onChange={handleNameChange}
+            className="phonebook-input one"
+          />
         </div>
         <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
+          Number:{" "}
+          <input
+            value={newNumber}
+            onChange={handleNumberChange}
+            className="phonebook-input two"
+          />
         </div>
         <div>
-          <button type="submit">add</button>
+          <button className="phonebook-button" type="submit">
+            add
+          </button>
         </div>
       </form>
     </div>
