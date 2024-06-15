@@ -1,42 +1,85 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+body {
+  font-family: "Roboto";
+  background-color: #3a0ca3;
+  color: #ebebeb;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 35px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.filter-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#search-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #c0c0c0;
+  border: #c0c0c0 1px solid;
+  outline: none;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+::placeholder {
+  text-align: center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.phonebook-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #c0c0c0;
+  border: #c0c0c0 1px solid;
+  margin-top: 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.one {
+  margin-bottom: 10px;
 }
 
-.card {
-  padding: 2em;
+.phonebook-button {
+  margin-top: 18px;
+  background-color: #ff6700;
+  padding: 8px 35px;
+  border: none;
+  color: #ebebeb;
+  letter-spacing: 1px;
+  font-size: 18px;
+  font-family: "Roboto";
+  margin-left: 30%;
+  border-radius: 2px;
+  text-transform: capitalize;
+  cursor: pointer;
 }
 
-.read-the-docs {
-  color: #888;
+.contact {
+  margin-left: 20px;
+  background-color: #ff6700;
+  color: #ebebeb;
+  font-family: "Roboto";
+  font-size: 18px;
+  border: none;
+  width: 50%;
+}
+.people {
+  margin-top: 10px;
+}
+
+.container {
+  text-align: center;
+}
+
+.numbers {
+  text-align: center;
 }

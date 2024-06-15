@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import PhoneBook from "./components/PhoneBook";
 import { getAll, create, update, remove } from "../util/api";
 import Notification from "./components/Notification";
+import "./App.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -100,22 +101,26 @@ const App = () => {
   );
 
   return (
-    <div>
-      <h2>Phonebook</h2>
+    <div className="app">
+      <h2 className="title">Phonebook</h2>
       <Notification message={notification} type={notificationType} />
       <Filter filter={filter} onFilterChange={handleFilterChange} />
-      <h2>Add a new</h2>
+      <h2>Add a new contact</h2>
       <PhoneBook
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
         handleSubmit={handleSubmit}
       />
-      <h2>Numbers</h2>
+      <h2 className="numbers">Numbers</h2>
       {filteredPersons.map((person) => (
-        <p key={person.id}>
-          {person.name} {person.number}
-          <button onClick={() => handleDelete(person.id)}>Delete</button>
-        </p>
+        <div key={person.id} className="container">
+          <p key={person.id} className="people">
+            {person.name} {person.number}
+            <button className="contact" onClick={() => handleDelete(person.id)}>
+              Delete
+            </button>
+          </p>
+        </div>
       ))}
     </div>
   );
